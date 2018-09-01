@@ -3,6 +3,14 @@ import numbers
 from yunobuiltin import isa, get, MultiFn, rpartial
 
 
+try:
+    basestring
+except NameError:
+    basestring = str
+    unicode = str
+    long = int
+
+
 def test_isa_equality():
     assert isa(None, None)
     assert isa(True, True)
@@ -73,9 +81,9 @@ def test_isa_instance():
     assert isa(1, int)
     assert isa(1, numbers.Integral)
     assert isa(1, numbers.Number)
-    assert isa(1L, long)
-    assert isa(1L, numbers.Integral)
-    assert isa(1L, numbers.Number)
+    assert isa(long(1), long)
+    assert isa(long(1), numbers.Integral)
+    assert isa(long(1), numbers.Number)
     assert isa(1.0, float)
     assert isa(1.0, numbers.Real)
     assert isa(1.0, numbers.Number)

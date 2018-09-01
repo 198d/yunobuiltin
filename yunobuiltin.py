@@ -10,6 +10,17 @@ from operator import (attrgetter as aget,       # NOQA
                       itemgetter as iget,       # NOQA
                       methodcaller as mcall, )  # NOQA
 
+try:
+    from functools import reduce
+except ImportError:
+    pass
+
+
+try:
+    basestring
+except NameError:
+    basestring = str
+
 
 def gensym():
     "Generates a unique symbol that is a valid python identifier"
@@ -689,12 +700,12 @@ def better_reduce(f, *xs):
 
         try:
             init = f(x, y)
-        except Reduced, r:
+        except Reduced as r:
             return r.val
 
         try:
             return reduce(f, coll, init)
-        except Reduced, r:
+        except Reduced as r:
             return r.val
 
     elif l == 2:
@@ -703,7 +714,7 @@ def better_reduce(f, *xs):
 
         try:
             return reduce(f, coll, init)
-        except Reduced, r:
+        except Reduced as r:
             return r.val
 
     else:
@@ -712,7 +723,7 @@ def better_reduce(f, *xs):
 
         try:
             return reduce(f, colls, init)
-        except Reduced, r:
+        except Reduced as r:
             return r.val
 
 
