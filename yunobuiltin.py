@@ -22,6 +22,13 @@ except NameError:
     basestring = str
 
 
+def iteritems(d):
+    try:
+        return d.iteritems()
+    except AttributeError:
+        return d.items()
+
+
 def gensym():
     "Generates a unique symbol that is a valid python identifier"
     from uuid import uuid4
@@ -169,7 +176,7 @@ def merge_with(f, *dicts):
     r = {}
     sentinel = object()
     for d in filter(None, dicts):
-        for k, v in d.iteritems():
+        for k, v in iteritems(d):
             tmp = r.get(k, sentinel)
             if tmp is sentinel:
                 r[k] = v
@@ -639,7 +646,7 @@ def transform_tree(f, t):
     if not is_map(t):
         return t
     d = {}
-    for k, v in t.iteritems():
+    for k, v in iteritems(t):
         nk, nv = f(k, transform_tree(f, v))
         d[nk] = nv
     return d
